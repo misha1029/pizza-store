@@ -41,7 +41,7 @@ export const PizzaBlock = ({ ...obj }) => {
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от 395 ₽</div>
+          <div className="pizza-block__price">от {obj.price} ₽</div>
           <button
             /* onClick={onClickAdd} */ className="button button--outline button--add"
           >
