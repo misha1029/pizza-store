@@ -1,33 +1,39 @@
 import React from "react";
 import axios from "axios";
 
+import { useSelector, useDispatch } from "react-redux";
+import { setCategiriId } from "../redux/filter/slice";
 
 import { PizzaBlock } from "../components/PizzaBlock";
 import { Categories } from "../components/Categories";
 import { Sort } from "../components/Sort";
 import { Loading } from "../components/Loading";
-import  Pagination  from "../components/Pagination/index";
+import Pagination from "../components/Pagination/index";
 import { SearchContext } from "../App";
 
 export const Home = () => {
-  const {searchValue} = React.useContext(SearchContext)
+  const { categoryId, sort } = useSelector((state) => state.filter);
+  /* const sortType = useSelector((state) => state.filter.sort.sortProperty); */
+  console.log("category2 ----", categoryId);
+  const dispatch = useDispatch();
+
+  const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categiriId, setCategiriId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [sortType, setSortType] = React.useState({
-    name: "популярности",
-    sortProperty: "rating",
-  });
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategiriId(id));
+  };
 
   React.useEffect(() => {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
-        const sortBy = sortType.sortProperty.replace("-", "");
-        const category = categiriId > 0 ? `category=${categiriId}` : "";
+        const order = sort.sortProperty.includes("-") ? "asc" : "desc";
+        const sortBy = sort.sortProperty.replace("-", "");
+        const category = categoryId > 0 ? `category=${categoryId}` : "";
 
         const [itemsResponse] = await Promise.all([
           axios.get(
@@ -42,7 +48,7 @@ export const Home = () => {
       }
     }
     fetchData();
-  }, [categiriId, sortType, currentPage]);
+  }, [categoryId, sort, currentPage]);
 
   const pizzas = items
     .filter((obj) => {
@@ -56,11 +62,8 @@ export const Home = () => {
   return (
     <>
       <div className="content__top">
-        <Categories
-          value={categiriId}
-          onChangeCategory={(index) => setCategiriId(index)}
-        />
-        <Sort value={sortType} onChangeSort={(index) => setSortType(index)} />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
@@ -68,7 +71,7 @@ export const Home = () => {
           ? [...new Array(6)].map((_, index) => <Loading key={index} />)
           : pizzas}
       </div>
-      <Pagination onChangePage = {(number) => setCurrentPage(number)}/>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </>
   );
 };
