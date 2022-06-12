@@ -1,5 +1,5 @@
 .root {
-    display: inline-flex;
+  display: inline-flex;
   li {
     a {
       display: inline-flex;
@@ -21,11 +21,11 @@
     }
   }
   :global {
-      .selected {
-        a {
-            background-color: #fe5f1e;
+    .selected {
+      a {
+        background-color: #fe5f1e;
         color: #fff;
-        }
       }
+    }
   }
 }

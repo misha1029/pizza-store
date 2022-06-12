@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCategiriId } from "../redux/filter/slice";
+import { setCategiriId, setCurrentPage } from "../redux/filter/slice";
 
 import { PizzaBlock } from "../components/PizzaBlock";
 import { Categories } from "../components/Categories";
@@ -12,20 +12,23 @@ import Pagination from "../components/Pagination/index";
 import { SearchContext } from "../App";
 
 export const Home = () => {
-  const { categoryId, sort } = useSelector((state) => state.filter);
-  /* const sortType = useSelector((state) => state.filter.sort.sortProperty); */
-  console.log("category2 ----", categoryId);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+
   const dispatch = useDispatch();
 
   const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
+/*   const [currentPage, setCurrentPage] = React.useState(1); */
 
   const onChangeCategory = (id) => {
     dispatch(setCategiriId(id));
   };
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number))
+  }
 
   React.useEffect(() => {
     async function fetchData() {
@@ -71,7 +74,7 @@ export const Home = () => {
           ? [...new Array(6)].map((_, index) => <Loading key={index} />)
           : pizzas}
       </div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage = {currentPage} onChangePage={onChangePage} />
     </>
   );
 };

@@ -3,11 +3,6 @@ import React from "react";
 export const PizzaBlock = ({ ...obj }) => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
-  /*   const [pizzaCount, setPizzaCount] = React.useState(0);
-
-  const onClickAdd = () => {
-    setPizzaCount(pizzaCount + 1);
-  } */
 
   const typesName = ["Тонкая", "Традиционная"];
 
