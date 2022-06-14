@@ -1,57 +1,104 @@
 import React from "react";
 import axios from "axios";
+import qs from "qs";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCategiriId, setCurrentPage } from "../redux/filter/slice";
+import {
+  setCategiriId,
+  setCurrentPage,
+  setFilters,
+} from "../redux/filter/slice";
 
 import { PizzaBlock } from "../components/PizzaBlock";
 import { Categories } from "../components/Categories";
-import { Sort } from "../components/Sort";
+import { Sort, list } from "../components/Sort";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination/index";
 import { SearchContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isSearch = React.useRef(false);
+  const isM = React.useRef(false);
+
+  const { categoryId, sort, currentPage } = useSelector(
+    (state) => state.filter
+  );
 
   const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-/*   const [currentPage, setCurrentPage] = React.useState(1); */
 
   const onChangeCategory = (id) => {
     dispatch(setCategiriId(id));
   };
 
   const onChangePage = (number) => {
-    dispatch(setCurrentPage(number))
-  }
+    dispatch(setCurrentPage(number));
+  };
+  const fetchPizzas = async function () {
+    try {
+      setIsLoading(true);
+      const order = sort.sortProperty.includes("-") ? "asc" : "desc";
+      const sortBy = sort.sortProperty.replace("-", "");
+      const category = categoryId > 0 ? `category=${categoryId}` : "";
+      const search = searchValue ? `search=${searchValue}` : "";
+
+      const [itemsResponse] = await Promise.all([
+        axios.get(
+          `https://629e5534c6ef9335c0b320e7.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&search${search}`
+        ),
+      ]);
+      setItems(itemsResponse.data);
+      setIsLoading(false);
+      window.scrollTo(0, 0);
+    } catch {
+      alert("Ощибка при запрасе данных");
+    }
+  };
 
   React.useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        const order = sort.sortProperty.includes("-") ? "asc" : "desc";
-        const sortBy = sort.sortProperty.replace("-", "");
-        const category = categoryId > 0 ? `category=${categoryId}` : "";
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
 
-        const [itemsResponse] = await Promise.all([
-          axios.get(
-            `https://629e5534c6ef9335c0b320e7.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}`
-          ),
-        ]);
-        setItems(itemsResponse.data);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      } catch {
-        alert("Ощибка при запрасе данных");
-      }
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        })
+      );
+      isSearch.current = true;
     }
-    fetchData();
-  }, [categoryId, sort, currentPage]);
+  }, []);
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+    isSearch.current = false;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId, sort.sortProperty, currentPage, searchValue]);
+
+  React.useEffect(() => {
+    if(isM.current){
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isM.current = true;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId, sort.sortProperty, currentPage]);
 
   const pizzas = items
     .filter((obj) => {
@@ -74,7 +121,7 @@ export const Home = () => {
           ? [...new Array(6)].map((_, index) => <Loading key={index} />)
           : pizzas}
       </div>
-      <Pagination currentPage = {currentPage} onChangePage={onChangePage} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </>
   );
 };

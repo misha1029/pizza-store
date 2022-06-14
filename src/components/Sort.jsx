@@ -5,13 +5,13 @@ import {setSort} from '../redux/filter/slice'
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const list = [
-  { name: "популярности(desc)", sortProperty: "rating" },
-  { name: "популярности", sortProperty: "-rating" },
-  { name: "цене(desc)", sortProperty: "price" },
-  { name: "цене", sortProperty: "-price" },
-  { name: "алфавиту(desc)", sortProperty: "title" },
-  { name: "алфавиту", sortProperty: "-title" },
+export const list = [
+  { name: "популярности(DESC)", sortProperty: "rating" },
+  { name: "популярности(ASC)", sortProperty: "-rating" },
+  { name: "цене(DESC)", sortProperty: "price" },
+  { name: "цене(ASC)", sortProperty: "-price" },
+  { name: "алфавиту(DESC)", sortProperty: "title" },
+  { name: "алфавиту(ASC)", sortProperty: "-title" },
 ];
 
 export const Sort = () => {

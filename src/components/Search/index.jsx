@@ -17,7 +17,7 @@ export const Search = () => {
   const searchDebounce = React.useCallback(
     debounce((str) => {
       setSearchValue(str);
-    }, 500),
+    }, 1000),
     [],
   );
 

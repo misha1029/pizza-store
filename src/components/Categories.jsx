@@ -14,11 +14,11 @@ export const Categories = ({value, onChangeCategory}) => {
   return (
     <div className="categories">
       <ul>
-        {categories.map((categoriesData, index) => (
+        {categories.map((categoriesData, id) => (
           <li
-            key={index}
-            onClick={() => onChangeCategory(index)}
-            className={value === index ? "active" : ''}
+            key={id}
+            onClick={() => onChangeCategory(id)}
+            className={value === id ? "active" : ''}
           >
             {categoriesData}
           </li>
