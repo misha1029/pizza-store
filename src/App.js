@@ -11,7 +11,6 @@ export const SearchContext = React.createContext("");
 
 function App() {
   const [searchValue, setSearchValue] = React.useState("");
-  
 
   return (
     <div className="wrapper">
@@ -27,7 +26,6 @@ function App() {
           </div>
         </div>
       </SearchContext.Provider>
-
     </div>
   );
 }

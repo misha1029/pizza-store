@@ -27,7 +27,20 @@ export const Sort = () => {
     setOpen(false);
   };
 
-  function useOutsideAlerter(ref) {
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if(!event.path.includes(wrapperRef.current)){
+        setOpen(false);
+      }
+    }
+    document.body.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  }, [])
+
+/*   function useOutsideAlerter(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -41,7 +54,7 @@ export const Sort = () => {
     }, [ref]);
   }
 
-  useOutsideAlerter(wrapperRef);
+  useOutsideAlerter(wrapperRef); */
 
   return (
     <div ref={wrapperRef} className="sort">
