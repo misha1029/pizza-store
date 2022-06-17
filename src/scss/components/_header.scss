@@ -9,11 +9,13 @@
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 645px) {
+
+
+    @media (max-width: 770px) {
       flex-direction: column;
       text-align: center;
       .header__cart {
-        margin-top: 20px;
+        margin-top: 10px;
       }
     }
   }
@@ -38,10 +40,19 @@
       letter-spacing: 1%;
       text-transform: uppercase;
       font-weight: 800;
+      @media (max-width: 1160px) {
+        font-size: 20px;
+      }
     }
 
     p {
       color: #7b7b7b;
+      @media (max-width: 1160px) {
+        font-size: 14px;
+      }
+      @media (max-width: 1025px) {
+        font-size: 12px;
+      }
     }
 
     

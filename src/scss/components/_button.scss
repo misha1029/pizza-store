@@ -12,6 +12,10 @@
   border: 1px solid transparent;
   @include noselect();
 
+  @media (max-width: 1025px) {
+    min-width: 50px;
+  }
+
   &,
   span {
     color: #fff;
@@ -93,6 +97,10 @@
     background-color: rgba(255, 255, 255, 0.25);
     margin-left: 14px;
     margin-right: 14px;
+
+    @media (max-width: 1025px) {
+      display: none
+    }
   }
 
   &--add {
@@ -103,6 +111,9 @@
     span {
       font-weight: 600;
       font-size: 16px;
+      @media (max-width: 1025px) {
+        display: none
+      }
     }
 
     &:hover {
@@ -134,15 +145,29 @@
     align-items: center;
     line-height: 23px;
     padding: 12px 25px;
+    @media (max-width: 1025px) {
+      justify-content: center;
+      padding: 8px 8px;
+      line-height: 0px;
+    }
 
     svg {
       margin-right: 8px;
       margin-bottom: 1px;
+      @media (max-width: 1025px) {
+        margin-right: 0px;
+      }
     }
 
     span {
       font-weight: 600;
       font-size: 16px;
+      @media (max-width: 1150px) {
+        font-size: 14px;
+      }
+      @media (max-width: 1025px) {
+        display: none
+      }
     }
   }
 }

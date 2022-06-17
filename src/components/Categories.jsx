@@ -1,6 +1,12 @@
 import React from "react";
+import styles from "./Categories/Categories.module.scss";
 
-export const Categories = ({value, onChangeCategory}) => {
+export const Categories = ({ value, onChangeCategory }) => {
+  const [click, setClick] = React.useState(true);
+
+  const handleClick = () => {
+    setClick(!click);
+  };
 
   const categories = [
     "Все",
@@ -13,12 +19,17 @@ export const Categories = ({value, onChangeCategory}) => {
 
   return (
     <div className="categories">
-      <ul>
+      <div onClick = {handleClick} className="burgerContainer">
+        <div className="bar1"></div>
+        <div className="bar2"></div>
+        <div className="bar3"></div>
+      </div>
+      <ul className={click ? "ulContainer" : 'ulContainerMedia'}>
         {categories.map((categoriesData, id) => (
           <li
             key={id}
             onClick={() => onChangeCategory(id)}
-            className={value === id ? "active" : ''}
+            className={value === id ? "active" : ""}
           >
             {categoriesData}
           </li>

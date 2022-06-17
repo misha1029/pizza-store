@@ -1,0 +1,39 @@
+.burgerContainer {
+  z-index: 9999;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #fe5f1e;
+  width: 44px;
+  height: 44px;
+  margin: 30px 0px 30px 0;
+  display: none;
+
+  &:hover {
+    .bar1 {
+        transform: rotate(-45deg) translate(-5px, 5px);
+    }
+    .bar2 {
+        opacity: 0;
+    }
+    .bar3 {
+        transform: rotate(45deg) translate(-5px, -5px);
+    }
+  }
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 20px;
+  height: 3px;
+  background-color: white;
+  margin: 2px 0;
+  transition: 0.4s;
+}
+
+
