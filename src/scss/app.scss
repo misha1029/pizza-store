@@ -133,14 +133,11 @@ body {
       }
       .sort {
         padding-left: 30px;
-        b {
-        }
       }
     }
 
     @media (max-width: 1250px) {
       .categories {
-        /*         overflow: auto; */
         .ulContainer {
           li {
             padding: 10px 13px;
@@ -176,11 +173,6 @@ body {
         .ulContainer {
           display: none
         }
-      }
-    }
-
-    @media (max-width: 820px) {
-      .categories {
       }
     }
   }

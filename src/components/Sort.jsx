@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {setSort} from '../redux/filter/slice'
 
-import { useEffect } from "react";
 import { useRef } from "react";
+import { selectorSort } from "../redux/filter/selectors";
 
 export const list = [
   { name: "популярности(DESC)", sortProperty: "rating" },
@@ -18,7 +18,7 @@ export const Sort = () => {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const sort = useSelector(state => state.filter.sort)
+  const sort = useSelector(selectorSort)
 
   const wrapperRef = useRef(null);
 
@@ -39,22 +39,6 @@ export const Sort = () => {
       document.removeEventListener("click", handleClickOutside);
     }
   }, [])
-
-/*   function useOutsideAlerter(ref) {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setOpen(false);
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  }
-
-  useOutsideAlerter(wrapperRef); */
 
   return (
     <div ref={wrapperRef} className="sort">
