@@ -18,6 +18,7 @@ import { SearchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { selectFilter } from "../redux/filter/selectors";
 import { selectPizza } from "../redux/pizzas/selectors";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ export const Home = () => {
   const isSearch = React.useRef(false);
   const isM = React.useRef(false);
 
-  const { categoryId, sort, currentPage, searchValue  } = useSelector(selectFilter);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
   const { items, status } = useSelector(selectPizza);
 
   const onChangeCategory = (id) => {
@@ -95,7 +97,11 @@ export const Home = () => {
       }
       return false;
     })
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+    .map((obj) => (
+      <Link key={obj.id} to={`/pizza/${obj.id}`}>
+        <PizzaBlock {...obj} />
+      </Link>
+    ));
 
   return (
     <>
