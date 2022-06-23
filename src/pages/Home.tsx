@@ -14,13 +14,12 @@ import { Categories } from "../components/Categories";
 import { Sort, list } from "../components/Sort";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination/index";
-import { SearchContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { selectFilter } from "../redux/filter/selectors";
 import { selectPizza } from "../redux/pizzas/selectors";
 import { Link } from "react-router-dom";
 
-export const Home = () => {
+export const Home:React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -30,12 +29,12 @@ export const Home = () => {
     useSelector(selectFilter);
   const { items, status } = useSelector(selectPizza);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategiriId(id));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (value: number) => {
+    dispatch(setCurrentPage(value));
   };
 
   const getPizzas = async () => {
@@ -45,6 +44,7 @@ export const Home = () => {
     const search = searchValue ? `search=${searchValue}` : "";
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
@@ -91,13 +91,13 @@ export const Home = () => {
   }, [categoryId, sort.sortProperty, currentPage]);
 
   const pizzas = items
-    .filter((obj) => {
+    .filter((obj: any) => {
       if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
         return true;
       }
       return false;
     })
-    .map((obj) => (
+    .map((obj: any) => (
       <Link key={obj.id} to={`/pizza/${obj.id}`}>
         <PizzaBlock {...obj} />
       </Link>
