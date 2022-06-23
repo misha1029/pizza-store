@@ -5,7 +5,12 @@ import {setSort} from '../redux/filter/slice'
 import { useRef } from "react";
 import { selectorSort } from "../redux/filter/selectors";
 
-export const list = [
+type ListItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const list : ListItem[] = [
   { name: "популярности(DESC)", sortProperty: "rating" },
   { name: "популярности(ASC)", sortProperty: "-rating" },
   { name: "цене(DESC)", sortProperty: "price" },
@@ -20,16 +25,16 @@ export const Sort = () => {
   const dispatch = useDispatch();
   const sort = useSelector(selectorSort)
 
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: ListItem) => {
     dispatch(setSort(obj))
     setOpen(false);
   };
 
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if(!event.path.includes(wrapperRef.current)){
         setOpen(false);
       }
