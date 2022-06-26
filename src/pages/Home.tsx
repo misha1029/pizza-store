@@ -18,10 +18,12 @@ import { useNavigate } from "react-router-dom";
 import { selectFilter } from "../redux/filter/selectors";
 import { selectPizza } from "../redux/pizzas/selectors";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../redux/store";
+import { SearchPizzaParams } from "../redux/pizzas/types";
 
-export const Home:React.FC = () => {
+export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isM = React.useRef(false);
 
@@ -44,32 +46,35 @@ export const Home:React.FC = () => {
     const search = searchValue ? `search=${searchValue}` : "";
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       })
     );
   };
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as SearchPizzaParams;
 
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
 
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || list[0],
         })
       );
-      isSearch.current = true;
     }
-  }, []);
+    isSearch.current = true;
+  }, []); */
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,7 +83,7 @@ export const Home:React.FC = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     if (isM.current) {
       const queryString = qs.stringify({
         sortProperty: sort.sortProperty,
@@ -88,7 +93,7 @@ export const Home:React.FC = () => {
       navigate(`?${queryString}`);
     }
     isM.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage]); */
 
   const pizzas = items
     .filter((obj: any) => {
@@ -98,9 +103,7 @@ export const Home:React.FC = () => {
       return false;
     })
     .map((obj: any) => (
-      <Link key={obj.id} to={`/pizza/${obj.id}`}>
         <PizzaBlock {...obj} />
-      </Link>
     ));
 
   return (

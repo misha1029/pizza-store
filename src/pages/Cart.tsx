@@ -1,26 +1,28 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {CartItem} from '../components/CartItem'
-import {clearItems} from '../redux/cart/slise'
-import {CartEmpty} from '../components/CartEmty'
+import { CartItemBlock } from "../components/CartItem";
+import { clearItems } from "../redux/cart/slise";
+import { CartEmpty } from "../components/CartEmty";
 import { selectCart } from "../redux/cart/selectors";
-
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const {totalPrice, items} = useSelector(selectCart);
+  const { totalPrice, items } = useSelector(selectCart);
 
-  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
 
   const onClickClear = () => {
-    if(window.confirm('Are you sure you want to clear cart?')){
-        dispatch(clearItems());
+    if (window.confirm("Are you sure you want to clear cart?")) {
+      dispatch(clearItems());
     }
   };
 
-  if(!totalPrice){
-    return <CartEmpty/>
+  if (!totalPrice) {
+    return <CartEmpty />;
   }
 
   return (
@@ -58,7 +60,7 @@ export const Cart: React.FC = () => {
           </svg>
           Корзина
         </h2>
-        <div onClick = {onClickClear} className="cart__clear">
+        <div onClick={onClickClear} className="cart__clear">
           <svg
             width="20"
             height="20"
@@ -100,11 +102,9 @@ export const Cart: React.FC = () => {
         </div>
       </div>
       <div className="content__items">
-
-      {
-        items.map((item: any) => <CartItem key = {item.id} {...item}/>)
-      }
-
+        {items.map((item: any) => (
+          <CartItemBlock key={item.id} {...item} />
+        ))}
       </div>
       <div className="cart__bottom">
         <div className="cart__bottom-details">
@@ -118,7 +118,10 @@ export const Cart: React.FC = () => {
           </span>
         </div>
         <div className="cart__bottom-buttons">
-          <Link to="/" className="button button--outline button--add go-back-btn">
+          <Link
+            to="/"
+            className="button button--outline button--add go-back-btn"
+          >
             <svg
               width="8"
               height="14"

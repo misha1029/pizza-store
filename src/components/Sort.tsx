@@ -4,10 +4,11 @@ import {setSort} from '../redux/filter/slice'
 
 import { useRef } from "react";
 import { selectorSort } from "../redux/filter/selectors";
+import { SortPropertyEnum } from "../redux/filter/types";
 
 type ListItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: SortPropertyEnum;
 };
 
 type PopapClick = MouseEvent & {
@@ -15,12 +16,12 @@ type PopapClick = MouseEvent & {
 }
 
 export const list : ListItem[] = [
-  { name: "популярности(DESC)", sortProperty: "rating" },
-  { name: "популярности(ASC)", sortProperty: "-rating" },
-  { name: "цене(DESC)", sortProperty: "price" },
-  { name: "цене(ASC)", sortProperty: "-price" },
-  { name: "алфавиту(DESC)", sortProperty: "title" },
-  { name: "алфавиту(ASC)", sortProperty: "-title" },
+  { name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+  { name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+  { name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+  { name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
 export const Sort = () => {
