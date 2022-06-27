@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import Loadable from "react-loadable";
 import "./scss/app.scss";
 
 import { Header } from "./components/Header";
@@ -8,7 +9,15 @@ import { NotFound } from "./pages/NotFound";
 /* import { Cart } from "./pages/Cart"; */
 import { FullPizza } from "./pages/FullPizza";
 
-const Cart = React.lazy(() => import("./pages/Cart"));
+//const Cart = React.lazy(
+//  () => import(/* webpackChunkName: "Cart" */ "./pages/Cart")
+//);
+// для оптимизации приложения для последовательной загрузки страниц, webpackChunkName: "Cart" - название Chank
+
+const Cart = Loadable({
+  loader: () => import(/* webpackChunkName: "Cart" */ "./pages/Cart"),
+  loading: () => <div>Идёт загрузка корзины...</div>,
+});
 
 function App() {
   return (
